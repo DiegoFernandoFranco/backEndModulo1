@@ -20,16 +20,17 @@ class ProductManager {
     
     async sendToJson () {
         this.products.push(...this.tempWorkProduct)
-        await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2),this.encodingFile)
+        await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2))
     }
 
     async addProduct (product) {  
         this.tempWorkProduct = [];      
         let temp = {...product};
         this.idAuto = this.idAuto + 1; 
+        const faltanCampos = Object.keys(product).length
 
         try {            
-            if (Object.values(temp).includes(undefined) || Object.values(temp).includes('')) {
+            if (Object.values(temp).includes(undefined) || Object.values(temp).includes('') || faltanCampos < 6) {
                 throw new Error ('No se agrego el producto por datos incompletos')    
             }    
                     
@@ -50,12 +51,13 @@ class ProductManager {
 
     async getProducts () {
         try {
-            const tempGet = await fs.promises.readFile(this.path, this.encodingFile);            
+            const tempGet = await fs.promises.readFile(this.path, { encoding: 'utf-8' });            
             return JSON.parse(tempGet);
 
         }   catch (error){
-            console.log(error.message);
+            // console.log(error.message);
             console.log(`El archivo ${this.path} fue Creado.`);
+            console.log(`Este mensaje solo saldra una sola vez`);
             await fs.promises.writeFile(this.path, '[]');
             return [];
         }
@@ -90,7 +92,7 @@ class ProductManager {
     async deleteProduct (id) {
         try {
             this.products = this.products.filter((obj) => obj.id !== id);
-            await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2),this.encodingFile)
+            await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2))
         }   catch {
 
         }
@@ -101,20 +103,20 @@ class ProductManager {
 const main = async () => {
     // nueva instancia de PM;
     const products = new ProductManager;
-    await products.getFromJson(); // SIN ESTA LLAMADA NO FUNCIONA NADA!
+    await products.getFromJson(); // esta llamada carga los productos del json si ya existe, asi no crea el archivo 
     // Ver todos los productos, ahora esta vacio, devuelve [];
-    console.log(await products.getProducts());
+    // console.log(await products.getProducts());
     
     // Agregar Productos con id Automatico generado en la clase sin repeticiones
-    await products.addProduct({title: 'Gibson Custom Les Paul', description: 'Electric Guitar', price: 2000, thumbnail: 'Image not available', code: 'abc123', stock: 25});
-    await products.addProduct({title: 'Gibson SG', description: 'Electric Guitar', price: 4000, thumbnail: 'Image not available', code: 'abc124', stock: 50});
-    await products.addProduct({title: 'Gibson Thunderbird', description: 'Electric Guitar', price: 6000, thumbnail: 'Image not available', code: 'abc125', stock: 25});
-    await products.addProduct({title: 'Fender Telecaster', description: 'Electric Guitar', price: 8000, thumbnail: 'Image not available', code: 'abc126', stock: 25});
-    await products.addProduct({title: 'Fender Stratocastor', description: 'Electric Guitar', price: 10000, thumbnail: 'Image not available', code: 'abc127', stock: 50});
-    await products.addProduct({title: 'Gibson Firebird', description: 'Electric Guitar', price: 12000, thumbnail: 'Image not available', code: 'abc128', stock: 50});
+    // await products.addProduct({title: 'Gibson Custom Les Paul', description: 'Electric Guitar', price: 2000, thumbnail: 'Image not available', code: 'abc123', stock: 25});
+    // await products.addProduct({title: 'Gibson SG', description: 'Electric Guitar', price: 4000, thumbnail: 'Image not available', code: 'abc124', stock: 50});
+    // await products.addProduct({title: 'Gibson Thunderbird', description: 'Electric Guitar', price: 6000, thumbnail: 'Image not available', code: 'abc125', stock: 25});
+    // await products.addProduct({title: 'Fender Telecaster', description: 'Electric Guitar', price: 8000, thumbnail: 'Image not available', code: 'abc126', stock: 25});
+    // await products.addProduct({title: 'Fender Stratocastor', description: 'Electric Guitar', price: 10000, thumbnail: 'Image not available', code: 'abc127', stock: 50});
+    // await products.addProduct({title: 'Gibson Firebird', description: 'Electric Guitar', price: 12000, thumbnail: 'Image not available', code: 'abc128', stock: 50});
     
     // Ver todos los productos, ahora hay productos, devuelve array de objetos;
-    console.log(await products.getProducts());
+    // console.log(await products.getProducts());
 
     // Muestra producto por Id
     // console.log(await products.getProductById(4));
@@ -134,7 +136,7 @@ const main = async () => {
     // await products.addProduct({title: 'Gibson Firebird', description: 'Electric Guitar', price: 12000, thumbnail: 'Image not available', code: 'abc128', stock: 50});
     
     // Productos sin un campo Valido, no se agregan
-    // await products.addProduct({title: 'Gibson Custom Les Paul', description: 'Electric Guitar', thumbnail: 'Image not available', code: 'abc123', stock: 25});
+    // await products.addProduct({title: 'Gibson Custom Les Paul', description: 'Electric Guitar', code: 'abc200', stock: 25});
     // await products.addProduct({title: 'Gibson SG', description: 'Electric Guitar', price: '', thumbnail: 'Image not available', code: 'abc124', stock: 50});
 }
 
