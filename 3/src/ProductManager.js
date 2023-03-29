@@ -142,9 +142,9 @@ const main = async () => {
     // console.log(await products.getProductById(4));
 
     // Modificacion de producto con mismo Id y en la misma posición, es un bajo, no guitarra
-    await products.updateProduct(3, {description: 'Electric Bass'})
+    // await products.updateProduct(3, {description: 'Electric Bass'})
     // Modificacion de producto con mismo Id y en la misma posición, titulo mal escrito, es Stratocaster, no Stratocastor 
-    await products.updateProduct(5, {title: 'Fender Stratocaster'})
+    // await products.updateProduct(5, {title: 'Fender Stratocaster'})
 
     // Eliminacion de producto por id, no existe ese id, tira error
     // await products.deleteProduct(100)
