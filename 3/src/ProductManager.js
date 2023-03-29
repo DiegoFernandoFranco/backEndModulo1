@@ -5,11 +5,11 @@ import path from 'path';
    que el Product Manager, sino lo creaba en donde era llamado,
    por ejemplo lo llamaba desde c:\ y lo creaba ahi, con esto lo sulucione
 */
-const managerPath = path.dirname(new URL(import.meta.url).pathname).substring(1);
 
 class ProductManager {
     constructor () {
-        this.path = `${managerPath}/products.json`;
+        const managerPath = path.dirname(new URL(import.meta.url).pathname).substring(1);
+        this.path = managerPath + '/' + 'products.json';
         this.products = [];
         this.encodingFile = { encoding: 'utf-8' };
         this.tempProduct = [];
@@ -30,11 +30,14 @@ class ProductManager {
                 this.idAuto = this.products[this.products.length -1]['id'];
             } 
             
-            return this.products
+            return this.products;
 
         }   catch (error) {
                 console.log(`El archivo ${this.path} fue Creado.`);
                 console.log(`Este mensaje solo saldra una sola vez`);
+
+                console.log(this.path)
+
                 await fs.promises.writeFile(this.path, '[]');
                 return [];
         }
@@ -139,9 +142,9 @@ const main = async () => {
     // console.log(await products.getProductById(4));
 
     // Modificacion de producto con mismo Id y en la misma posición, es un bajo, no guitarra
-    // await products.updateProduct(3, {description: 'Electric Bass'})
+    await products.updateProduct(3, {description: 'Electric Bass'})
     // Modificacion de producto con mismo Id y en la misma posición, titulo mal escrito, es Stratocaster, no Stratocastor 
-    // await products.updateProduct(5, {title: 'Fender Stratocaster'})
+    await products.updateProduct(5, {title: 'Fender Stratocaster'})
 
     // Eliminacion de producto por id, no existe ese id, tira error
     // await products.deleteProduct(100)
