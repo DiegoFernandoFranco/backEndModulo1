@@ -8,7 +8,9 @@ import path from 'path';
 
 class ProductManager {
     constructor () {
-        const managerPath = path.dirname(new URL(import.meta.url).pathname).substring(1);
+        // const managerPath = path.dirname(new URL(import.meta.url).pathname).substring(1);
+        // this.path = managerPath + '/' + 'products.json';
+        const managerPath = path.resolve();
         this.path = managerPath + '/' + 'products.json';
         this.products = [];
         this.encodingFile = { encoding: 'utf-8' };
@@ -116,8 +118,8 @@ class ProductManager {
     };
 };
 
-const main = async () => {
-    const products = new ProductManager;
+// const main = async () => {
+//     const products = new ProductManager;
     // Ver todos los productos, ahora esta vacio, devuelve [];
     // console.log(await products.getProducts());
     
@@ -160,8 +162,8 @@ const main = async () => {
     // await products.addProduct({title: 'Gibson SG', description: 'Electric Guitar', price: '', thumbnail: 'Image not available', code: 'abc124', stock: 50});
 
     // console.log(await products.getProducts());
-}
+// }
 
-main();
+// main();
 
 export default ProductManager;
