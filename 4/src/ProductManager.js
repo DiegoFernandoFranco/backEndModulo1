@@ -28,13 +28,11 @@ class ProductManager {
             return this.products;
 
         }   catch (error) {
-                console.log(`El archivo ${this.path} fue Creado.`);
-                console.log(`Este mensaje solo saldra una sola vez`);
-
-                console.log(this.path)
-
-                await fs.promises.writeFile(this.path, '[]');
-                return [];
+            console.log(`El archivo ${this.path} fue Creado.`);
+            console.log(`Este mensaje solo saldra una sola vez`);
+            console.log(this.path)
+            await fs.promises.writeFile(this.path, '[]');
+            return [];
         }
     };
 
@@ -43,8 +41,7 @@ class ProductManager {
         const busqueda = await this.products.find((prodBuscado) => prodBuscado.id === id); 
 
         if (!busqueda) {
-            return ({error: 'Not Found'}) ;
-            // return ('Not Found') ;
+            return false;            
         }   else {
             return busqueda;
         };
@@ -57,24 +54,20 @@ class ProductManager {
         this.idAuto = this.idAuto + 1;
         const faltanCampos = Object.keys(product).length
 
-        try {            
-            if (Object.values(temp).includes(undefined) || Object.values(temp).includes('') || faltanCampos < 8) { //verifica 8 campos obligarios, buscar otra forma
-                throw new Error ('No se agrego el producto por datos incompletos')    
-            }    
+        
+        if (Object.values(temp).includes(undefined) || Object.values(temp).includes('') || faltanCampos < 8) { //verifica 8 campos obligarios, buscar otra forma
+            return 'No se agrego el producto por datos incompletos'
+        }    
                     
-                for (let i = 0; i < this.products.length; i++) {
-                    if (this.products[i].code === temp.code) {       
-                        throw new Error ('Campo Code Repetido, no se puede agregar el Producto')
-                    };
-                }
+        for (let i = 0; i < this.products.length; i++) {
+            if (this.products[i].code === temp.code) {       
+                return 'Campo Code Repetido, no se puede agregar el Producto'
+            };
+        }
                                 
-                this.tempProduct.push({id: this.idAuto, ...product})                
-                await this.sendToJson()
-                throw new Error ('Producto creado Re Exitosamente!!')  
-                // return 'Producto creado Re Exitosamente!!';
-        }   catch (error) {
-                console.log(error.message); // asi es mas limpia la consola al mostrar error.
-            }        
+        this.tempProduct.push({id: this.idAuto, ...product})                
+        await this.sendToJson()
+        return true;          
     };
 
     async updateProduct (id, product) {
@@ -89,25 +82,23 @@ class ProductManager {
             this.products.splice(productIndex, 1, productMod)
       
             await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2));
+            return true;
       
           } catch (error) {
-            throw new Error(error);
+            return false;
           }
     };
 
     async deleteProduct (id) {
         this.products = await this.getProducts();
-        try {
-            if (!this.products.find((product) => product.id === id)) {
-                throw new Error (`El Id: ${id} no existe, no se va a eliminar nada`);
-            }   else {
-                    this.products = this.products.filter((obj) => obj.id !== id);
-                    await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2));
-                    return `Producto con Id: ${id} eliminado correctamente`;
-            }
-        }   catch (error) {
-                console.log(error.message)
-        }
+       
+        if (!this.products.find((product) => product.id === id)) {
+            return false;
+        }   else {
+            this.products = this.products.filter((obj) => obj.id !== id);
+            await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2));
+            return true;
+        }        
     };
 };
 

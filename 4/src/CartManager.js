@@ -68,16 +68,18 @@ class CartManager {
         const cartIndex = cartOld.findIndex((cart) => cart.id === idCart);
         if (cartIndex === -1) {
             console.log('No Existe Cart Id en Carts')
-            return;
+            return 'No Existe Cart Id en Carts';
         };        
+        // return 'Existe Cart Id in Carts';
         console.log('Existe Cart Id in Carts')
 
         // comprueba si existe idProduct
         const products = new ProductManager;
         const product = await products.getProductById (idProduct)
-        if (product.error == 'Not Found') {
+        // console.log(product)
+        if (!product) {
             console.log('No Existe Product id in Products')
-            return;
+            return 'No Existe Product id in Products';
         };
         console.log('Existe Product id in Products')
 
@@ -94,6 +96,7 @@ class CartManager {
         const enviar = JSON.stringify(cartOld, null, 2);
         console.log('no tendria que llegar aca si no existe producto')
         await fs.promises.writeFile(this.path, enviar, 'utf-8')
+        return true;
     };
 
     async deleteCart (id) {
@@ -101,14 +104,12 @@ class CartManager {
         try {
             if (!this.carts.find((cart) => cart.id === id)) {
                 throw new Error (`El Id: ${id} no existe, no se va a eliminar nada`);
-                return res.status(400).send({status: 'error', error: `Cart con Id: ${id} Fallo Estrepitosamente`})
+                return false;
             }   else {
                     this.carts = this.carts.filter((obj) => obj.id !== id);
                     await fs.promises.writeFile(this.path, JSON.stringify(this.carts, null, 2));
 
-                    // res.status(201).send({status: 'success', message: `Cart con Id: ${id} eliminado correctamente`})
-
-                    return `Cart con Id: ${id} eliminado correctamente`;
+                    return true;
             }
         }   catch (error) {
                 console.log(error.message)

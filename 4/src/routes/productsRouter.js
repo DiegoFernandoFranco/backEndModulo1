@@ -12,38 +12,57 @@ productsRouter.get('/', async (req, res) => {
 
     if (req.query.limit) {
         const limite = +req.query.limit;
-        res.send(allProducts.slice(0, limite));
+        res.status(200).send(allProducts.slice(0, limite))
     }   else {
-            res.send(allProducts);
+        res.send(allProducts);
     }
 });
 
 productsRouter.get ('/:pid', async (req, res) => {
     const productId = parseInt(req.params.pid);
-    res.send(await products.getProductById(productId));
+    const result = await products.getProductById(productId);
+    if (result) {
+        res.status(200).send(result)
+    }   else {
+        res.status(404).send({status: 'error', error: 'Not Found'});
+        
+    }
 });
 
 productsRouter.post('/', uploader.single('thumbnail'), async (req, res) => {    
-    if (!req.file) {
-        res.status(400).send({status: 'error', error: 'Imagen no guardada'});
-    }
-    res.send({status: 'success', message: 'Imagen guardada'});
-    
-
+   
     const {title, description, price, code, stock, category} = req.body;
     const newProduct = {title, description, code, price, status: true, stock, category, thumbnail: [req.file.filename]}
-    res.send(await products.addProduct(newProduct));
+    const result = await products.addProduct(newProduct);
+    console.log(result)
+    if (result !== true) {
+        res.status(400).send({status: 'error', error: result});
+
+    }   else {
+        res.status(200).send({status: 'success', message: 'Producto Creado Espectacularmente'});
+    }
 });
 
 productsRouter.put('/:pid', async (req, res) => {
-    const idProduct = req.params.pid;
+    const idProduct = +req.params.pid;
     const {...product} = req.body;
-    res.send(await products.updateProduct(idProduct, {...req.body}));
+    const response = await products.updateProduct(idProduct, {...req.body});
+    if (response) {
+        res.status(201).send({status: 'success', message: 'Producto Actualizado Correctamente'});
+    }   else {
+        res.status(400).send({status: 'error', error: 'No se pudo modificar el producto'});
+
+    }
 })
 
 productsRouter.delete('/:pid', async (req, res) => {
     const productId = parseInt(req.params.pid);
-    res.send(await products.deleteProduct(productId));
+    const response = await products.deleteProduct(productId)
+    if (response) {
+        res.status(201).send({status: 'success', message: 'Producto Eliminado Correctamente'});
+    }   else {
+        res.status(400).send({status: 'error', error: 'Id del Producto no existe'});
+    }
 })
 
 export default productsRouter;

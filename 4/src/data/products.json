@@ -106,18 +106,5 @@
     "thumbnail": "Image not available",
     "code": "abc134",
     "stock": 60
-  },
-  {
-    "id": 13,
-    "title": "saxo",
-    "description": "instrumento  de viento",
-    "code": "asdf545445dddfdfdff",
-    "price": "500",
-    "status": true,
-    "stock": "2555",
-    "category": "instrumentos musical",
-    "thumbnail": [
-      "javascriptMapTip-1536x1283.jpg"
-    ]
   }
 ]
