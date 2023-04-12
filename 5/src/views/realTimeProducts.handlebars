@@ -1,0 +1,41 @@
+<div>
+    <h1>Lista de Productos en Vivo</h1>    
+<div>
+    <form id="formDeleteProduct" action="">
+        <label for="">Borrar Producto</label>
+        <input id="idProduct" type="text" placeholder="id producto a borrar"/>
+        <button type="submit">Enviar</button>
+    </form>
+    {{!-- <p id="listProductsLive"></p> --}}
+<div id="listProductsLive">
+</div>
+    
+    
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+<script>
+    
+    const socket = io();
+
+    formDeleteProduct.addEventListener('submit', (event) => {
+        const formDeleteProduct = document.getElementById('formDeleteProduct');
+        const idProduct = document.getElementById('idProduct').value;
+        
+        event.preventDefault();
+        socket.emit('removeProduct', idProduct);
+    })   
+
+    socket.on('todos', (data) => {
+        let listaProductos = document.getElementById("listProductsLive");
+        {{!-- listaProductos.innerHTML = JSON.stringify(data);         --}}
+        listaProductos.innerHTML = `{{#each dataProducts}}
+        <div>
+            <p style="margin: 2px 0px">id: {{this.id}} title: {{this.title}}
+            description: {{this.description}} price: {{this.price}}
+            code: {{this.code}} stock: {{this.stock}}</p>
+        </div>
+    {{/each}}`;        
+    });
+  
+</script>
