@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "title": "Gibson Custom Les Paul",
+    "description": "Electric Guitar",
+    "price": 2000,
+    "thumbnail": "Image not available",
+    "code": "abc123",
+    "stock": 25
+  },
+  {
+    "id": 2,
+    "title": "Gibson SG",
+    "description": "Electric Guitar",
+    "price": 4000,
+    "thumbnail": "Image not available",
+    "code": "abc124",
+    "stock": 50
+  },
+  {
+    "id": 3,
+    "title": "Gibson Thunderbird",
+    "description": "Electric Bass",
+    "price": 6000,
+    "thumbnail": "Image not available",
+    "code": "abc125",
+    "stock": 30
+  },
+  {
+    "id": 4,
+    "title": "Fender Telecaster",
+    "description": "Electric Guitar",
+    "price": 8000,
+    "thumbnail": "Image not available",
+    "code": "abc126",
+    "stock": 20
+  },
+  {
+    "id": 5,
+    "title": "Fender Stratocaster",
+    "description": "Electric Guitar",
+    "price": 10000,
+    "thumbnail": "Image not available",
+    "code": "abc127",
+    "stock": 35
+  },
+  {
+    "id": 6,
+    "title": "Gibson Firebird",
+    "description": "Electric Guitar",
+    "price": 12000,
+    "thumbnail": "Image not available",
+    "code": "abc128",
+    "stock": 25
+  },
+  {
+    "id": 7,
+    "title": "Gibson Flying V",
+    "description": "Electric Guitar",
+    "price": 14000,
+    "thumbnail": "Image not available",
+    "code": "abc129",
+    "stock": 45
+  },
+  {
+    "id": 8,
+    "title": "Gibson Explorer",
+    "description": "Electric Guitar",
+    "price": 16000,
+    "thumbnail": "Image not available",
+    "code": "abc130",
+    "stock": 40
+  },
+  {
+    "id": 9,
+    "title": "Fender Standard Jazz",
+    "description": "Electric Bass Guitar",
+    "price": 18000,
+    "thumbnail": "Image not available",
+    "code": "abc131",
+    "stock": 45
+  },
+  {
+    "id": 10,
+    "title": "Fender Precision",
+    "description": "Electric Bass Guitar",
+    "price": 20000,
+    "thumbnail": "Image not available",
+    "code": "abc132",
+    "stock": 65
+  },
+  {
+    "id": 11,
+    "title": "Music Man Stingray",
+    "description": "Electric Bass Guitar",
+    "price": 22000,
+    "thumbnail": "Image not available",
+    "code": "abc133",
+    "stock": 55
+  },
+  {
+    "id": 12,
+    "title": "Rickenbacker 4003 S",
+    "description": "Electric Bass Guitar",
+    "price": 24000,
+    "thumbnail": "Image not available",
+    "code": "abc134",
+    "stock": 60
+  }
+]

@@ -1,0 +1,10 @@
+<div>
+    <h1>Lista de Productos de {{name}} estatica</h1>
+    {{#each dataProducts}}
+        <div>
+            <p style="margin: 2px 0px">id: {{this.id}} title: {{this.title}}
+            description: {{this.description}} price: {{this.price}}
+            code: {{this.code}} stock: {{this.stock}}</p>
+        </div>
+    {{/each}}
+</div>

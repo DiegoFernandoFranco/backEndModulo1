@@ -1,0 +1,68 @@
+<div>
+    <h1>Live!!! Lista de Productos Live!!!</h1>
+</div>
+    <form id="formAddProduct" action="" >
+        <label for="" style="font-weight: bold; color: blue">Agregar Producto</label>
+        <br>
+        <input type="text" id="title" name="texto" placeholder="title"/>
+        <input type="text" id="description" name="texto" placeholder="description"/>
+        <input type="text" id="code" name="texto" placeholder="code"/>
+        <input type="text" id="stock" name="texto" placeholder="stock"/>
+        <input type="text" id="category" name="texto" placeholder="category"/>
+        <input type="text" id="price" name="texto" placeholder="price"/>
+        <button type="submit">Agregar Producto</button>
+    </form>
+    <br>
+    <form id="formDeleteProduct" action="">
+        <label for="" style="font-weight: bold; color: blue">Borrar Producto</label>
+        <br>
+        <input id="idProduct" type="text" placeholder="id producto a borrar"/>
+        <button type="submit">Eliminar</button>
+    </form>
+    <div id="parrafoFo"></div>
+</div>
+
+
+{{!--
+<script src="/socket.io/socket.io.js"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+<script>
+    
+    const socket = io();
+    socket.emit('message', 'Hola desde el cliente!!');
+    
+    formDeleteProduct.addEventListener('submit', (event) => {
+        const formDeleteProduct = document.getElementById('formDeleteProduct');
+        const idProduct = document.getElementById('idProduct').value;
+        
+        event.preventDefault();
+        socket.emit('removeProduct', idProduct);
+    })   
+
+    socket.on('server to client', (data) => {
+        const print = document.getElementById('parrafoFo');
+        print.innerHTML = [];
+        data.forEach((item) => {
+            document.createElement('p')
+            print.innerHTML += `
+            <p>id:${item.id} title:${item.title} description:${item.description} stock:${item.stock} price:${item.price}</p>`;
+        })        
+    }); 
+
+    formAddProduct.addEventListener('submit', (event) => {
+        const formAddProduct = document.getElementById('submit');
+        console.log('agregar')
+        
+        const title = document.getElementById('title').value;
+        const description = document.getElementById('description').value;
+        const code = document.getElementById('code').value;
+        const stock = document.getElementById('stock').value;
+        const category = document.getElementById('category').value;
+        const price = document.getElementById('price').value;
+        event.preventDefault();
+
+        const product = {title, description, price, thumbnail: 'sin imagen', code, stock, status: true, category}
+
+        socket.emit('newProduct', product)
+    });
+</script>
